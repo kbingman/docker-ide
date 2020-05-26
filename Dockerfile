@@ -5,25 +5,33 @@ RUN apk add -U --no-cache  \
     tmux openssh-client bash \
     curl less man openssl
 
-# Create a user called 'me'
+# mv config files
+# ADD . /home/default/Config
+ADD vimrc /home/node/.vimrc
+# ADD bashrc /home/node/.bashrc
+ADD profile /home/node/.profile
+ADD bashrc /home/node/.bashrc
+ADD vim /home/node/.vim
+
+RUN chown node /home/node/.vimrc
+RUN chown -R node /home/node/.vim
+
+ENV TERM xterm-256color
+
+# Start using the 'node' user
 USER node
 
+RUN mkdir /home/node/files
+
 # Do everything from now in that users home directory
-WORKDIR /home/app
-ENV HOME /home/app
+WORKDIR /home/node
+ENV HOME /home/node
 
 
 ENV PORT 3000
 
 EXPOSE 3000
 
-# mv config files
-# ADD . /home/default/Config
-ADD vimrc /home/app/.vimrc
-# ADD bashrc /home/app/.bashrc
-ADD profile /home/app/.profile
-ADD vim /home/app/.vim
-
-RUN source /home/app/.profile
+RUN source /home/node/.profile
 
 ENTRYPOINT /bin/bash
