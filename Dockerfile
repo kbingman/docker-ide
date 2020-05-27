@@ -3,7 +3,10 @@ FROM node:erbium-alpine3.11
 RUN apk add -U --no-cache  \
     vim git git-perl \
     tmux openssh-client bash \
+    ncurses ncurses-terminfo \ 
     curl less man openssl
+
+ENV TERM xterm-256color
 
 # mv config files
 # ADD . /home/default/Config
@@ -12,11 +15,11 @@ ADD vimrc /home/node/.vimrc
 ADD profile /home/node/.profile
 ADD bashrc /home/node/.bashrc
 ADD vim /home/node/.vim
+ADD tmux.conf /home/node/.tmux.conf
 
 RUN chown node /home/node/.vimrc
 RUN chown -R node /home/node/.vim
-
-ENV TERM xterm-256color
+RUN chown -R node /home/node/.tmux.conf
 
 # Start using the 'node' user
 USER node
@@ -24,14 +27,11 @@ USER node
 RUN mkdir /home/node/files
 
 # Do everything from now in that users home directory
-WORKDIR /home/node
+WORKDIR /home/node/files
 ENV HOME /home/node
-
 
 ENV PORT 3000
 
 EXPOSE 3000
-
-RUN source /home/node/.profile
 
 ENTRYPOINT /bin/bash
