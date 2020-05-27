@@ -31,9 +31,14 @@ RUN mkdir /home/node/files
 WORKDIR /home/node
 
 # Install Vim Plugins
-# for vim8
+# Coc for vim8
 RUN mkdir -p /home/node/.vim/pack/coc/start
 RUN cd /home/node/.vim/pack/coc/start && curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
+
+# Add Coc Extensions
+RUN mkdir -p /home/node/.config
+RUN chown -R node /home/node/.config
+ADD coc /home/node/.config/coc
 
 ENV HOME /home/node
 ENV PORT 3000
