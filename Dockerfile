@@ -27,9 +27,14 @@ USER node
 RUN mkdir /home/node/files
 
 # Do everything from now in that users home directory
-WORKDIR /home/node/files
-ENV HOME /home/node
+WORKDIR /home/node
 
+# Install Vim Plugins
+# for vim8
+RUN mkdir -p /home/node/.vim/pack/coc/start
+RUN cd /home/node/.vim/pack/coc/start && curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
+
+ENV HOME /home/node
 ENV PORT 3000
 
 EXPOSE 3000
