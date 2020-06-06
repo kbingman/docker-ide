@@ -44,7 +44,6 @@ RUN cd /home/node/.config/coc/extensions && npm i
 
 RUN git config --global user.name "${git_user_name}"
 RUN git config --global user.email "${git_user_email}"
-RUN echo "Oh dang look at that $git_user_email"
 
 RUN mkdir /home/node/work
 
