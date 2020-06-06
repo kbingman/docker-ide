@@ -1,5 +1,8 @@
 FROM node:erbium-alpine3.11
 
+ARG git_user_name
+ARG git_user_email
+
 # Install dependencies
 RUN apk add -U --no-cache  \
     vim git git-perl \
@@ -22,23 +25,31 @@ RUN chown node /home/node/.vimrc
 RUN chown -R node /home/node/.vim
 RUN chown node /home/node/.tmux.conf
 
-# Start using the 'node' user
-USER node
-
-RUN mkdir /home/node/files
-
-# Do everything from now in that users home directory
-WORKDIR /home/node
-
 # Install Vim Plugins
 # Coc for vim8
 RUN mkdir -p /home/node/.vim/pack/coc/start
+RUN chown -R node /home/node/.vim/pack/coc/start
 RUN cd /home/node/.vim/pack/coc/start && curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
 
 # Add Coc Extensions
-RUN mkdir -p /home/node/.config
+RUN mkdir -p /home/node/.config/coc/extensions
+ADD coc.package.json /home/node/.config/coc/extensions/package.json
 RUN chown -R node /home/node/.config
-ADD coc /home/node/.config/coc
+
+# Start using the 'node' user
+USER node
+
+# Install coc extensions
+RUN cd /home/node/.config/coc/extensions && npm i
+
+RUN git config --global user.name "${git_user_name}"
+RUN git config --global user.email "${git_user_email}"
+RUN echo "Oh dang look at that $git_user_email"
+
+RUN mkdir /home/node/work
+
+# Do everything from now in that users home directory
+WORKDIR /home/node
 
 ENV HOME /home/node
 ENV PORT 3000
