@@ -1,5 +1,5 @@
 # Test App
 
 ```
-docker-compose run --rm --service-ports nod_dev_env
+docker-compose run --rm --service-ports node_dev_env
 ```

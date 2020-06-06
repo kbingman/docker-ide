@@ -1,6 +1,6 @@
 version: "3"
 services:
-  nod_dev_env:
+  node_dev_env:
     build:
       context: .
       args:
@@ -10,5 +10,5 @@ services:
     ports:
       - 8080:3000
     volumes:
-      - ../:/home/node/work
+      - ../../:/home/node/work
       - ~/.ssh:/home/node/.ssh
