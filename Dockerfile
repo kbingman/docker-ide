@@ -36,12 +36,17 @@ RUN mkdir -p /home/node/.config/coc/extensions
 ADD coc.package.json /home/node/.config/coc/extensions/package.json
 RUN chown -R node /home/node/.config
 
+# Install global NPM packages
+RUN npm i -g npm-check
+RUN npm i -g vercel
+
 # Start using the 'node' user
 USER node
 
 # Install coc extensions
 RUN cd /home/node/.config/coc/extensions && npm i
 
+# Set git user
 RUN git config --global user.name "${git_user_name}"
 RUN git config --global user.email "${git_user_email}"
 
