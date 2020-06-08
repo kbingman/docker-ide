@@ -49,6 +49,7 @@ RUN cd /home/node/.config/coc/extensions && npm i
 # Set git user
 RUN git config --global user.name "${git_user_name}"
 RUN git config --global user.email "${git_user_email}"
+RUN git config --global rerere.enabled true
 
 RUN mkdir /home/node/work
 

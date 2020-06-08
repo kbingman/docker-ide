@@ -10,5 +10,5 @@ services:
     ports:
       - 8080:3000
     volumes:
-      - ../:/home/node/work
+      - ~/work:/home/node/work
       - ~/.ssh:/home/node/.ssh
