@@ -36,6 +36,11 @@ RUN mkdir -p /home/node/.config/coc/extensions
 ADD coc.package.json /home/node/.config/coc/extensions/package.json
 RUN chown -R node /home/node/.config
 
+# ALE
+RUN mkdir -p ~/.vim/pack/plugins/start
+RUN git clone --depth 1 https://github.com/dense-analysis/ale.git ~/.vim/pack/plugins/start/ale
+RUN chown -R node /home/node/.vim
+
 # Install global NPM packages
 RUN npm i -g npm-check
 RUN npm i -g vercel
